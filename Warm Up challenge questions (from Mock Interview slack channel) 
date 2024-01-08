@@ -1,0 +1,175 @@
+//challenge 50 
+// Declare a function 'partialSort' that takes in an array of numbers and another number 'K' as arguments. When the function is invoked, 
+//it should sort the input array in ascending order, with the exception that elements greater than or equal to 'K' should remain in
+// their original positions.
+//ARRAY METHODS
+function partialSort(array, K){
+  
+  //filter and sort the numbers less than K
+  const filteredLessthanK = array.filter((el)=> el<K).sort();
+  //add the greater numbers back at their original indices
+  for (let i=0; i < array.length; i++){
+    if (array[i] >= K){
+      filteredLessthanK.splice(i, 0, array[i]);
+    }
+  }
+  return filteredLessthanK;
+}
+//Tests
+// console.log(partialSort([3,5,1,4,2,6], 4));	        // [1, 5, 2, 4, 3, 6]
+// console.log(partialSort([3,5,7,8,1,4,2,6,0,9], 5));	// [0, 5, 7, 8, 1, 2, 3, 6, 4, 9]
+// console.log(partialSort([18,2,9,21,3,7,7], 9));	    // [18, 2, 9, 21, 3, 7, 7]
+
+//challenge 48
+//Declare a function 'reorder' that takes two arrays as input arguments. The first array, 'values', contains elements to be rearranged, 
+//and the second array, 'indices', consists of positive integers that represent the desired order of elements in the 'values' array. 
+//When the 'reorder' function is invoked, it should rearrange the 'values' array according to the specified order in the 'indices' array 
+//and return the rearranged array.
+function reorder1(valuesArray, indices){
+   //make it such that indicesArray is 0-indexed
+   const reOrdered  = [];
+   for (let i=1; i<=indices.length; i++){
+     //find the index of i in indices array and label it actualIndex
+     const actualIndex = indices.indexOf(i);
+     //push value[actualIndex] to the reOrderedArray
+     reOrdered.push(valuesArray[actualIndex]);
+   }
+   return reOrdered;
+}
+
+// console.log(reorder(['Second', 'Third', 'First', 'Fourth'], [2,3,1,4]));	// ['First', 'Second', 'Third', 'Fourth']
+// console.log(reorder(['Orange', 'Potato', 'Banana', 'Kiwi', 'Carrot'], [1,4,3,2,5]));	// ['Orange', 'Kiwi', 'Banana', 'Potato', 'Carrot']
+
+//challenge 49 
+// A string is considered symmetric about the character 'x' if the corresponding characters on both sides of 'x' are the same when mirrored around 'x'.
+//   - 'level' is a symmetric string about the character 'v'
+//   - 'symmetry' is not a symmetric string.
+// ---------
+// Declare a function 'hasSymmetricString' that takes in a string as a single argument and returns the message 'Yes' if the input string
+// contains any symmetric substrings. Otherwise, return 'No'.
+
+// BONUS 1: Return an array of length two containing the indices of the first and last characters of a symmetric substring (if any).
+// BONUS 2: Find the longest symmetric substring (if any).
+function hasSymmetricString(string){
+   for (let i=1; i<string.length-1; i++){
+    if (string[i-1]===string[i+1]){
+        return 'Yes';
+    }
+   }
+   return 'No'
+}
+//BONUS 2
+
+
+console.log(hasSymmetricString('x'));	    // 'No'
+console.log(hasSymmetricString('abba'));	// 'No'
+console.log(hasSymmetricString('abaca'));	// 'Yes'
+console.log(hasSymmetricString('ababa'));	// 'Yes'
+
+//challenge 38 
+//Declare a function 'findIntersection' that takes an arbitrary number of arrays as input, where each array contains two integers representing a range. The function should find the common intersection of these ranges and return an array containing all the integers within this intersection. If there is no intersection, the function should return the string 'Empty'.
+
+// console.log(findIntersection([2,9], [2,7], [1,3]));				// [2, 3]
+// console.log(findIntersection([1,6], [2,5], [3,7], [9,11]));		// 'Empty'
+// console.log(findIntersection([8,15], [12,21], [6,24], [9,18]));	// [12, 13, 14, 15]
+
+
+//challenge 39
+//Declare a function 'areAlmostIdentical' that accepts two strings as arguments and returns a boolean value indicating whether one of the strings can be obtained by removing at most one character from the other string.
+
+// console.log(areAlmostIdentical('similar', 'similar'));	// true
+// console.log(areAlmostIdentical('start', 'star'));	    // true
+// console.log(areAlmostIdentical('debug', 'bug'));		// false
+// console.log(areAlmostIdentical('Phone', 'iPhone'));		// true
+
+//challenge 40
+//Define a function 'findBalanceIndex' which accepts an array of numbers as input and returns the index at which the number of positive numbers on the right side of the index equals the number of negative numbers on the left side. If no such index exists, return -1.
+
+// console.log(findBalanceIndex([1, 2, -3, 4, -5, -6, 7]));			// 3
+// console.log(findBalanceIndex([-102, 42, -3333, -51, -621, 79]));	// 1
+// console.log(findBalanceIndex([-606, -96, -201, -111, -456, -3]));	// -1
+
+
+//challenge 41
+//Declare a function 'hasCompoundWord' that takes an arbitrary number of strings as arguments and returns a boolean value indicating whether there's at least one word that is a compound of other words.
+
+// console.log(hasCompoundWord('fire', 'colorful', 'fireworks', 'works', 'sky'));	// true -> 'fireworks' = 'fire' + 'works'
+// console.log(hasCompoundWord('What?', 'Expressions', 'regular', 'IrregularExpressions', 'Ir'));	// true -> 'IrregularExpressions' = 'Ir' + 'regular' + 'Expressions'
+// console.log(hasCompoundWord('How', 'are', 'you', 'today?'));	// false
+
+//challenge 42 
+// In the context of web development and security, an "origin" refers to the combination of three components that define the source of a web page or web application:
+// - Scheme: This is the protocol or scheme used to access the resource. Common schemes include "http", "https", "ftp", and "file".
+// - Host: The host is the domain name or IP address of the server where the resource is located.
+// - Port: The port number specifies the network port on the host where the resource is hosted. It is often omitted in URLs, in which case the default port for the scheme is used (e.g., 80 for HTTP, 443 for HTTPS).
+// Example:
+// URL: https://example.com:8080
+// - Scheme: https
+// - Host: example.com
+// - Port: 8080
+
+// ---------------------------
+
+// Declare a function 'validateOrigins' that takes in an array of strings representing URLs and returns the message 'Great! All the URLs are from the same origin!' if all the URLs are from the same origin. Otherwise, return an object with the key as the group number (e.g., Group 1, Group 2, etc.), and the value is an array of URLs for each group of origins.
+
+// const URLs = ['http://example.com:80/index.html', 'ftp://ftp.example.com/pub/file.txt', 'file:///home/user/documents/document.txt', 'http://example.com:80/about.html', 'http://example.com:80', 'https://api.example.com:443'];
+// console.log(validateOrigins(URLs));
+/*
+  { 
+     Group 1: ['http://example.com:80/index.html', 'http://example.com:80/about.html', 'http://example.com:80'],
+     Group 2: ['ftp://ftp.example.com/pub/file.txt'],
+     Group 3: ['file:///home/user/documents/document.txt'],
+     Group 4: ['https://api.example.com:443']
+  }
+*/
+
+//challenge 43 
+//Define a function called 'rank' that takes an array of numbers as its sole argument and returns another function. This returned function should accept a single number as input and, upon invocation, return a numeric value representing the rank of the input number within the array. If the input number is not found in the array, the function should return a numeric value indicating the rank that number would have in the context of the array. In this context, smaller numbers are assigned higher ranks than larger ones.
+
+// const arr = [9,21,101,6,12,8,30,222,8,101,8];
+// const checkRank = rank(arr);
+// console.log(checkRank(8));	// 2
+// console.log(checkRank(12));	// 6
+// console.log(checkRank(15));	// 7
+
+//challenge 44 
+//Declare a function called 'findSuperMax' that accepts an array of numbers as a single argument and returns the number that is greater than the sum of all the other numbers. If no such number is found, return the maximum number from the input array.
+
+// console.log(findSuperMax([3, 1, 5, 51, 1, 4, 7, 10, 6, 2, 8]));	// 51
+// console.log(findSuperMax([6, 0, 12, 39, 1, 2, 4, 4, 6, 8, 5]));	// 39
+// console.log(findSuperMax([100, 200, 300, 400, 500, 600]));	    // 600
+
+
+//challenge 45 
+//Declare a function 'isEchoChain' that accepts a positive integer as an argument and returns a boolean value indicating whether the number forms an echo chain pattern. In this scenario, an echo chain is a sequence where a certain pattern of distinct digits repeats itself cyclically throughout the entire number.
+
+// console.log(isEchoChain(101010));	// true
+// console.log(isEchoChain(123123));	// true
+// console.log(isEchoChain(456654));	// false
+// console.log(isEchoChain(404));	    // false
+
+//challenge 46 
+//Declare a higher-order function named 'concatMatrix' that takes a 2D array 'source' as input and returns another function. The returned function accepts another 2D array 'sauce' and a string called 'direction' (which can be either 'vertically' or 'horizontally'). When the returned function is invoked, it concatenates the 'sauce' matrix to the 'source' matrix based on the specified 'direction'. If the sizes of the matrices are incompatible for concatenation, return the message 'Oops! The sizes of the matrices are incompatible to concatenate *direction*!'.
+
+const source = [
+    [1, 2, 3],
+    [4, 5, 6]
+  ];
+  const sauce = [
+    [7, 8, 9]
+  ];
+//   const matrixConcatenator = concatMatrix(source);
+//   console.log(matrixConcatenator(sauce, 'vertically'));	// [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+//   console.log(matrixConcatenator(sauce, 'horizontally'));	// 'Oops! The sizes of the matrices are incompatible to concatenate horizontally!'
+
+  //challenge 47 
+  //Create a function called 'useMem0' that accepts two parameters: a callback function and an array of strings named 'dependencies.' The callback function should take an array of strings as input and return a new array containing strings that have lengths falling between the shortest and longest strings, regardless of their order.
+//The 'useMem0' function returns another function, which can accept an array of strings called 'newDependencies' as its argument. When this returned function is invoked, it caches the result obtained by applying the callback function to the 'newDependencies' if the elements in 'newDependencies' differ from those in the latest 'dependencies' (regardless of their order). Otherwise, return the message "Nothing changed: *old_cached_value*".
+
+// const dependencies = ['1', '333', '22', '4444', '666666', '55555'];
+// const cache = useMem0(callback, dependencies);
+// console.log(cache(['22', '1', '4444', '333', '55555', '666666']));	// 'Nothing changed: [22,333,4444,55555]'
+// console.log(cache(['4444', '22', '333', '1']));	// ['22', '333']
+// console.log(cache(['Cache', 'me', 'with', 'these', 'new', 'dependencies', 'pls!', '.', '#not_these_ones']));	// ['Cache', 'me', 'with', 'these', 'new', 'dependencies', 'pls!']
+
+//challenge 49

@@ -1,0 +1,494 @@
+//Sum All Numbers in a Range
+// We'll pass you an array of two numbers. Return the sum of those two numbers plus the sum of all the numbers between them. The lowest number will not always come first.
+// For example, sumAll([4,1]) should return 10 because sum of all the numbers between 1 and 4 (both inclusive) is 10.
+
+function sumAll1(array){
+    array.sort((a,b) => a-b); 
+    let sum = 0; 
+    for (let i=array[0]; i<=array[1]; i++){
+      sum += i; 
+    }
+    return sum; 
+}
+function sumAll(array){
+    const min = array.sort((a,b) => a-b)[0]; 
+    const max = array.sort((a,b) => a-b)[1]; 
+    return Array.from({length: max - min + 1}, (el, index) => index+ min).reduce((sum, el) => sum + el); 
+
+}
+// console.log(sumAll([4,1])); 
+// console.log(sumAll([10, 5])); 
+
+// Diff Two Arrays
+// Compare two arrays and return a new array with any items only found in one of the two given arrays, 
+// but not both. In other words, return the symmetric difference of the two arrays.
+// Note: You can return the array with its elements in any order.
+
+function diffArray(arr1, arr2){
+    const union = Array.from(new Set([...arr1, ...arr2])); 
+    const intersection = arr1.filter(el => arr2.includes(el)); 
+    return union.filter(el => !(intersection.includes(el)))
+}
+// console.log(diffArray(["diorite", "andesite", "grass", "dirt", "pink wool", "dead shrub"], ["diorite", "andesite", "grass", "dirt", "dead shrub"]));
+// console.log(diffArray([1, "calf", 3, "piglet"], [1, "calf", 3, 4])); 
+
+//Seek and Destroy
+// You will be provided with an initial array as the first argument to the destroyer function, followed by one or more arguments.
+//  Remove all elements from the initial array that are of the same value as these arguments.
+// The function must accept an indeterminate number of arguments, also known as a variadic function. 
+// You can access the additional arguments by adding a rest parameter to the function definition or using the arguments object.
+function destroyer(array, ...args){
+    return array.filter((el) => !args.includes(el))
+}
+
+// console.log(destroyer([1, 2, 3, 1, 2, 3], 2, 3)) //should return [1, 1].
+// console.log(destroyer([1, 2, 3, 5, 1, 2, 3], 2, 3)) //should return [1, 5, 1].
+// console.log(destroyer([3, 5, 1, 2, 2], 2, 3, 5)) //should return [1].
+// console.log(destroyer([2, 3, 2, 3], 2, 3)) //should return [].
+// console.log(destroyer(["tree", "hamburger", 53], "tree", 53)) //should return ["hamburger"].
+// console.log(destroyer(["possum", "trollo", 12, "safari", "hotdog", 92, 65, "grandma", "bugati", "trojan", "yacht"], "yacht", "possum", "trollo", "safari", "hotdog", "grandma", "bugati", "trojan"), '[12,92,65]') //should return [12,92,65].
+
+
+
+function myReplace(str, before, after) {
+    if (/[A-Z]/.test(before[0])){
+      after = after[0].toUpperCase() + after.slice(1);
+    }
+    else {
+      after = after.toLowerCase(); 
+    }
+    return str.replace(before, after)
+  }
+
+//Check if the predicate (second argument) is truthy on all elements of a collection (first argument).In other words, you are given
+//an array collection of objects. The predicate pre will be an object property and you need to return true if its value is truthy. Otherwise, return false.
+//In JavaScript, truthy values are values that translate to true when evaluated in a Boolean context.
+
+  function truthCheck(collection, pre) {
+    return collection.reduce((result, obj)=> {
+      return result && !!(obj[pre]); 
+    }, true)
+  }
+  
+//   console.log(truthCheck([{name: "Quincy", role: "Founder", isBot: false},
+//    {name: "Naomi", role: "", isBot: false}, {name: "Camperbot", role: "Bot", isBot: true}], "name"));
+  
+//   console.log(truthCheck([{name: "Pikachu", number: 25, caught: 3}, {name: "Togepi", number: 175, caught: 1},
+//    {name: "MissingNo", number: NaN, caught: 0}], "caught")); 
+
+
+// Binary Agents
+// Return an English translated sentence of the passed binary string.
+// The binary string will be space separated.
+
+function binaryAgent(str) {
+    str = str.split(' ').map(binary => String.fromCharCode(parseInt(binary, 2))).join(''); 
+    return str;
+ }
+ 
+ //console.log(binaryAgent("01000001 01110010 01100101 01101110 00100111 01110100 00100000 01100010 01101111 01101110 01100110 01101001 01110010 01100101 01110011 00100000 01100110 01110101 01101110 00100001 00111111"));
+ //console.log(binaryAgent("01001001 00100000 01101100 01101111 01110110 01100101 00100000 01000110 01110010 01100101 01100101 01000011 01101111 01100100 01100101 01000011 01100001 01101101 01110000 00100001"))
+
+//  Drop it
+//  Given the array arr, iterate through and remove each element starting from the first element (the 0 index) until the function func returns true when the iterated element is passed through it.
+//  Then return the rest of the array once the condition is satisfied, otherwise, arr should be returned as an empty array.
+ 
+function dropElements1(arr, func) {
+    const firstIndex = arr.findIndex(func);
+    const result = firstIndex > -1 ? arr.slice(firstIndex): []
+    return result;
+  }
+
+  function dropElements(arr, func) {
+    // Iterate through the array until func returns true
+    while (arr.length > 0 && !func(arr[0])) {
+      arr.shift();
+    }
+    return arr;
+  }
+  
+  // Example usage:
+//   console.log(dropElements([1, 2, 3, 4], function(n) { return n >= 3; })); // Output: [3, 4]
+//   console.log(dropElements([0, 1, 0, 1], function(n) { return n === 1; })); // Output: [1, 0, 1]
+//   console.log(dropElements([1, 2, 3], function(n) { return n > 0; })); // Output: [1, 2, 3]
+//   console.log(dropElements([1, 2, 3, 4], function(n) {return n > 5;}));
+//   console.log(dropElements([1, 2, 3, 7, 4], function(n) {return n > 3;}))
+
+  
+
+  function steamrollArray(arr) {
+    const flat = [];
+  
+    function flattenArray(element) {
+      if (!Array.isArray(element)) {
+        flat.push(element);
+      } else {
+        for (let i = 0; i < element.length; i++) {
+          flattenArray(element[i]);
+        }
+      }
+    }
+  
+    flattenArray(arr);
+    return flat;
+  }
+
+  function steamrollArray(arr, count = 0, flat = []) {
+    if (count === arr.length) {
+      return flat;
+    }
+  
+    if (!Array.isArray(arr[count])) {
+      flat.push(arr[count]);
+    } else {
+      // Recursively flatten the nested array before pushing it to the flat array
+      steamrollArray(arr[count], 0, flat);
+    }
+  
+    return steamrollArray(arr, count + 1, flat);
+  }
+  
+//   console.log(steamrollArray([1, [2], [3, [[4]]]]));
+  
+  //console.log(steamrollArray([1, [2]]));
+
+  function translatePigLatin(str) {
+    //check if str doesnt have any vowels. if so add ay at end of str
+    if (!/[aeiou]/.test(str)){
+       return str + 'ay'; 
+    }
+    //check if str starts with a consonant
+    //if so find the index of the first vowel
+    //return a slice removing consonants from beginning to end and add the string 'ay' to the end
+    else if (/[^aeiou]/.test(str[0])){
+      const firstvowel = str.split('').findIndex(el => /[.aeiou]/.test(el)); 
+      return str.slice(firstvowel) + str.slice(0, firstvowel) + 'ay'
+    }
+    //otherwise if the str starts with a vowel add 'way' to the end
+  else {
+      return str + 'way'
+   }
+  }
+  
+  
+//   console.log(translatePigLatin("california"));
+//   console.log(translatePigLatin("glove")); 
+//   console.log(translatePigLatin("algorithm")); 
+//   console.log(translatePigLatin("eight")); 
+//   console.log(translatePigLatin('rhythm')); 
+  
+//Sorted Union
+
+// Write a function that takes two or more arrays and returns a new array of unique values in the order of the original provided arrays.
+// In other words, all values present from all arrays should be included in their original order, but with no duplicates in the final array.
+// The unique numbers should be sorted by their original order, but the final array should not be sorted in numerical order.
+
+function uniteUnique(...arr) {
+    return arr.reduce((accum, array) => {
+      return Array.from(new Set ([...accum, ...array]));
+    })
+    }
+    
+// console.log(uniteUnique([1, 3, 2], [5, 2, 1, 4], [2, 1]));
+// console.log(uniteUnique([1, 2, 3], [5, 2, 1, 4], [2, 1], [6, 7, 8]));
+
+// Convert HTML Entities
+// Convert the characters &, <, >, " (double quote), and ' (apostrophe), in a string to their corresponding HTML entities.
+
+function convertHTML(str) {
+    const html = {
+      '&': '&amp;', 
+      '<' : '&lt;', 
+      '>' : '&gt;', 
+      '"' : '&quot;', 
+      "'" : '&apos;'
+    }
+    for (let key in html){
+      str = str.replaceAll(key, html[key]); 
+    }
+    return str;
+  }
+  
+//   console.log(convertHTML("Dolce & Gabbana"));
+//   console.log(convertHTML("Hamburgers < Pizza < Tacos"))
+//   console.log(convertHTML('Stuff in "quotation marks"'))
+  
+  function fibs(num){
+    const allFibs = [0, 1]; 
+    sum = 1; 
+    for (let i=2; i<=num; i++){
+        const currentFib = allFibs[i-1] + allFibs[i-2]; 
+        allFibs.push(currentFib);
+    }
+    return allFibs; 
+  }
+//   console.log(fibs(5))
+//   console.log(fibs(6)); 
+//   console.log(fibs(7))
+  
+// Sum All Odd Fibonacci Numbers
+// Given a positive integer num, return the sum of all odd Fibonacci numbers that are less than or equal to num.
+  function sumFibs(num) {
+    //declare a function to find fibonacci number
+    function findFibs(num, fibs = {}){
+      if (num<2){
+        return num; 
+      }
+      if (!fibs[num]){
+        fibs[num] = findFibs(num-1, fibs) + findFibs(num -2, fibs); 
+      }
+      return fibs[num]; 
+    }
+    let sum = 0; 
+    for (let i=0; i<=num; i++){
+      if (findFibs(i) > num){
+        break; 
+      }
+      if (findFibs(i)%2===1){
+        sum += findFibs(i)
+      }
+    }
+   return sum; 
+    
+  }
+  
+//   console.log(sumFibs(1000));
+//   console.log(sumFibs(2));
+//   console.log(sumFibs(3));
+//   console.log(sumFibs(4));
+//   console.log(sumFibs(5));
+//   console.log(sumFibs(6));
+//   console.log(sumFibs(7));
+
+
+
+  const Person = function(first, last) {
+    let _first = first; 
+    let _last = last; 
+  
+    this.getFullName = function() {
+      return `${_first} ${_last}`;
+    };
+    this.getFirstName = function() {
+      return `${_first}`;
+    };
+    this.getLastName = function() {
+      return `${_last}`;
+    };
+   this.setFirstName = function(newFirst) {
+     _first = newFirst; 
+   }
+   this.setLastName = function(newLast) {
+     _last = newLast; 
+   }
+   this.setFullName = function(newFirst, newLast) {
+     _first = newFirst;
+     _last = newLast; 
+   }
+    
+  };
+  const myPerson = new Person("Bongi", 'Sibanda'); 
+  //console.log(myPerson); 
+  // console.log(myPerson.getFullName()); 
+  // console.log(myPerson.getFirstName()); 
+  // console.log(myPerson.getLastName()); 
+//   myPerson.setFirstName("Susanna"); 
+//   console.log(myPerson.getFirstName())
+//   console.log(myPerson.getLastName())
+//   console.log(myPerson)
+//   myPerson.setLastName('Sebagala'); 
+//   myPerson.setFullName('Thandi', 'Sibanda'); 
+
+
+  function formLargestNumWithKDigits(numbers, K) {
+    if (numbers.length < K) {
+        return -1;
+    }
+
+    numbers.sort((a, b) => b - a);
+    const result = numbers.slice(0, K).join('');
+
+    return parseInt(result);
+}
+
+// console.log(formLargestNumWithKDigits([2, 7, 1, 0, 9, 3], 3)); // Output: 973
+// console.log(formLargestNumWithKDigits([2, 2, 2], 2)); // Output: 22
+// console.log(formLargestNumWithKDigits([9, 1, 0, 3], 6)); // Output: -1
+
+function convertToRoman(num) {
+    //create an object with all key: value pairs
+    const romanNums = {
+      1000:'M',
+  900:'CM',
+  500:'D',
+  400:'CD',
+  100:'C',
+  90:'XC',
+  50:'L',
+  40:'XL',
+  10:'X',
+  9:'IX',
+  5:'V',
+  4: 'IV',
+  1: 'I'
+    }
+    // initialize a variable roman to an empty string
+    let roman = '';
+    //iterate through the values from the largest to the smallest
+     // when you reach the first value less than num start a while loop
+    // while the value is less than num keep concatenating it to roman
+    //go back to values and find the next value less than num
+    //nother while loop
+    //again until you get to 0
+    while (num > 0){
+    const keys = Object.keys(romanNums).sort((a,b)=> b-a);
+    let firstSmallestIndex = keys.findIndex(key => key <=num);
+    let firstSmallestNumber = keys[firstSmallestIndex]
+    while (num>=firstSmallestNumber){
+      roman += romanNums[firstSmallestNumber];
+      num -= firstSmallestNumber;   
+    }
+}
+    return roman;
+  }
+//   console.log(convertToRoman(36));
+//   console.log(convertToRoman(1006));
+
+  
+  
+// function convertToRoman(num){
+//     nums = [ 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 ]; 
+//     romans = ['M']
+// }
+
+function chessBoard(n){
+    let str = '';
+    for (let i=0; i<n; i++){
+      for (let j=0; j<n; j++){
+      if ((i+j) % 2 ===1){
+        str += '#'
+      }
+       else {
+        str += ' ';
+      }
+     }
+     str += "\n";
+    }
+    return str;
+  }
+//   console.log(chessBoard(8))
+
+const  multiplyBy2 = (num) => num*2;  
+  function trigger(K, callback){
+    let count = 0; 
+    let obj = {}; 
+    return function(num){
+      count +=1; 
+      if (count % K === 0){
+        count = 0; 
+        if (!obj[num]){
+          obj[num] = callback(num); 
+        }
+        else{
+          obj[num] = callback(obj[num]);
+        }
+        return obj[num];
+      }
+      else{
+        return `invoke the function ${K-count} time(s) more with argument ${num} to see the result'`
+      }
+    }
+  }
+  
+  
+  //const tr1 = trigger(5,multiplyBy2)
+//   console.log(tr1(3))
+//   console.log(tr1(3))
+//   console.log(tr1(3))
+//   console.log(tr1(3))
+//   console.log(tr1(3))
+//   console.log(tr1(3))
+//   console.log(tr1(3))
+//   console.log(tr1(3))
+//   console.log(tr1(3))
+
+  function range(start, end, step=1){
+    let array = []; 
+    if (step < 1){
+        for (let i=start; i>=end; i+=step){
+            array.push(i);
+        }
+    }
+
+    for (let i=start; i<=end; i+=step){
+      array.push(i)
+    }
+    return array;
+  }
+  
+  function sum(array){
+    return array.reduce((accum, num) => accum + num); 
+  }
+  
+  console.log(range(1, 10));
+  // → [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  console.log(range(5, 2, -1));
+  // → [5, 4, 3, 2]
+  console.log(sum(range(1, 10)));
+  // → 55
+
+//Missing letters
+// Find the missing letter in the passed letter range and return it.
+// If all letters are present in the range, return undefined.
+
+function fearNotLetter(str) {
+    //loop through the string and find the letter whose charcode is not equivalent to the next letter's charcode +1 
+    const charCodes = str.split('').map(char => char.charCodeAt());
+    for (let i=0; i<charCodes.length-1; i++){
+      if ((charCodes[i] + 1) !== charCodes[i+1]){
+        return String.fromCharCode(charCodes[i] + 1);
+      }
+    }
+  }
+  
+//   console.log(fearNotLetter("abce"));
+//   console.log(fearNotLetter("stvwx"));
+//   console.log(fearNotLetter("abcdefghijklmnopqrstuvwxyz"));
+
+
+
+// Create a function that sums two arguments together. If only one argument is provided, then return a function that expects one argument 
+// and returns the sum.
+// For example, addTogether(2, 3) should return 5, and addTogether(2) should return a function.
+// Calling this returned function with a single argument will then return the sum:
+// var sumTwoAnd = addTogether(2);
+// sumTwoAnd(3) returns 5.If either argument isn't a valid number, return undefined.
+
+function addTogether(...args){
+    if (args.length === 1 && typeof args[0] === 'number'){
+       return function(b){
+         if (typeof b ==='number'){
+           return args[0] + b;
+         }
+       }
+     }
+     if (typeof args[0] !=='number' || typeof args[1]!=='number'){
+       return undefined;
+     }
+     else {
+       return args[0] + args[1];
+     }
+    
+     }
+
+// console.log(addTogether(2, 3)) //should return 5.
+// console.log(addTogether(23.4, 30))  //should return 53.4.
+// console.log(addTogether("2", 3)) //should return undefined.
+// console.log(addTogether(5, undefined)) //should return undefined.
+// console.log(addTogether("https://www.youtube.com/watch?v=dQw4w9WgXcQ")) //should return undefined.
+// console.log(addTogether(5)) //should return a function.
+// console.log(addTogether(5)(7)) //should return 12.
+// console.log(addTogether(2)([3])) //should return undefined.
+// console.log(addTogether(2, "3")) //should return undefined.
+   
+   

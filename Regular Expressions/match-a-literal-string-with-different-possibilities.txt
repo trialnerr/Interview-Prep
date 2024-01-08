@@ -1,0 +1,7 @@
+//Complete the regex petRegex to match the pets dog, cat, bird, or fish.The | is an OR operator. So it will return true if any of the strings in your operator match
+
+let petString = "James has a pet cat, dog and bird.";
+let petRegex = /dog|cat|bird|fish/; // Change this line
+let result = petRegex.test(petString);
+
+console.log(result);
